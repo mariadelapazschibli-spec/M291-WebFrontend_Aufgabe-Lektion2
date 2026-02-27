@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSFiddle tp2bx7kg</title>
+
+  <style>
+    #score {
+  text-align: center;
+}
+
+#game {
+  width: 600px;
+  height: 300px;
+  border: 2px solid black;
+  margin: auto;
+  background-image: url('https://github.com/kriscfoster/chrome-dino-game/blob/master/background.jpg?raw=true');
+  background-size: cover;
+}
+
+#dino {
+  height: 75px;
+  width: 75px;
+  top: 225px;
+  position: relative;
+  background-image: url('https://github.com/kriscfoster/chrome-dino-game/blob/master/dino.png?raw=true');
+  background-size: cover;
+}
+
+#rock {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  top: 175px;
+  left: 550px;
+  background-image: url('https://github.com/kriscfoster/chrome-dino-game/blob/master/rock.png?raw=true');
+  background-size: cover;
+  animation: rock 1.33s infinite;
+}
+
+@keyframes rock {
+  0% {
+    left: 550px;
+  }
+  100% {
+    left: -50px;
+  }
+}
+
+.jump-animation {
+  animation: jump 1s;
+}
+
+@keyframes jump {
+  0% {
+    top: 225px;
+  }
+  50% {
+    top: 75px;
+  }
+  75% {
+    top: 75px;
+  }
+  100% {
+    top: 225px;
+  }
+}
+
+  </style>
+
+  
+</head>
+<body>
+  <link rel="stylesheet" href="style.css" />
+
+<div id="game">
+  <div id="dino"></div>
+  <div id="rock"></div>
+</div>
+<h1 id="score">0</h1>
+<script src="script.js"></script>
+
+
+  <script>
+    const dino = document.getElementById('dino')
+const rock = document.getElementById('rock')
+const score = document.getElementById('score')
+
+function jump() {
+  dino.classList.add('jump-animation')
+  setTimeout(() => dino.classList.remove('jump-animation'), 500)
+}
+
+document.addEventListener('keypress', (event) => {
+  if (!dino.classList.contains('jump-animation')) {
+    jump()
+  }
+})
+
+setInterval(() => {
+  const dinoTop = parseInt(
+    window.getComputedStyle(dino).getPropertyValue('top'),
+  )
+  const rockLeft = parseInt(
+    window.getComputedStyle(rock).getPropertyValue('left'),
+  )
+  score.innerText++
+
+  if (rockLeft < 0) {
+    rock.style.display = 'none'
+  } else {
+    rock.style.display = ''
+  }
+
+  if (rockLeft < 50 && rockLeft > 0 && dinoTop > 150) {
+    score.innerText = 0
+  }
+}, 25)
+
+  </script>
+</body>
+</html>
